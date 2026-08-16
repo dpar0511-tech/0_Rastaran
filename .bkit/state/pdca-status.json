@@ -1,0 +1,32 @@
+{
+  "version": "3.0",
+  "test": true,
+  "stateMachine": {
+    "defaultWorkflow": "default",
+    "activeWorkflows": {},
+    "totalTransitions": 0
+  },
+  "automation": {
+    "globalLevel": 2,
+    "trustScore": 38,
+    "pendingApprovals": 0,
+    "lastGateResult": null
+  },
+  "team": {
+    "enabled": true,
+    "stateFile": ".bkit/runtime/agent-state.json",
+    "eventsFile": ".bkit/runtime/agent-events.jsonl"
+  },
+  "lastUpdated": "2026-08-16T04:09:51.688Z",
+  "history": [
+    {
+      "timestamp": "2026-08-16T04:09:51.686Z",
+      "feature": "unknown",
+      "event": "ANALYZE_DONE",
+      "from": "act",
+      "to": "check",
+      "action": "state_transition",
+      "automationLevel": 2
+    }
+  ]
+}

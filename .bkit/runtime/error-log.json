@@ -1,0 +1,14 @@
+[
+  {
+    "timestamp": "2026-08-16T04:09:53.111Z",
+    "errorType": "unknown",
+    "category": "unknown",
+    "severity": "low",
+    "agentId": null,
+    "agentType": null,
+    "sessionId": null,
+    "message": "",
+    "parseStatus": "partial",
+    "parseWarnings": "StopFailure payload missing useful fields (keys: hook_event_name,error)"
+  }
+]

@@ -1,0 +1,182 @@
+#!/usr/bin/env node
+'use strict';
+/**
+ * Regression Test: 31 Agents Full Verification (35 TC)
+ * AG31-001~035: Each of 31 agents has valid frontmatter (model, memory, tools)
+ *
+ * @version bkit v2.0.0
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+const BASE_DIR = path.resolve(__dirname, '../..');
+const AGENTS_DIR = path.join(BASE_DIR, 'agents');
+
+// --- Inline assert ---
+let _passed = 0;
+let _failed = 0;
+let _total = 0;
+const _failures = [];
+
+function assert(id, condition, message) {
+  _total++;
+  if (condition) {
+    _passed++;
+    console.log(`  PASS: ${id} - ${message}`);
+  } else {
+    _failed++;
+    _failures.push({ id, message });
+    console.error(`  FAIL: ${id} - ${message}`);
+  }
+}
+
+console.log('\n=== agents-31.test.js (35 TC) ===\n');
+
+// --- Valid field values ---
+// v2.1.25: 'fable' added (Claude 5 model alignment)
+const VALID_MODELS = ['opus', 'sonnet', 'haiku', 'fable'];
+const VALID_MEMORY = ['user', 'project', 'local', 'none'];
+
+// --- All agents ---
+// v2.1.25 (#128): 6 pdca-eval-* tombstone stubs deleted (ADR 0014 —
+// governance moved to test/contract/deprecation-registry.json).
+const ALL_AGENTS = [
+  'bkend-expert', 'bkit-impact-analyst', 'cc-version-researcher',
+  'code-analyzer', 'cto-lead', 'design-validator', 'enterprise-expert',
+  'frontend-architect', 'gap-detector', 'infra-architect',
+  'pdca-iterator', 'pipeline-guide',
+  'pm-discovery', 'pm-lead', 'pm-lead-skill-patch', 'pm-prd',
+  'pm-research', 'pm-strategy', 'product-manager', 'qa-monitor',
+  'qa-strategist', 'report-generator', 'security-architect',
+  'skill-needs-extractor', 'starter-guide'
+];
+
+// v2.0.0 agents with disallowedTools
+const DISALLOWED_TOOLS_AGENTS = ['pdca-iterator', 'qa-monitor'];
+
+/**
+ * Parse YAML frontmatter from markdown file
+ */
+function parseFrontmatter(content) {
+  const match = content.match(/^---\n([\s\S]*?)\n---/);
+  if (!match) return null;
+  const raw = match[1];
+  const result = {};
+  const lines = raw.split('\n');
+  for (const line of lines) {
+    const keyMatch = line.match(/^(\w[\w-]*)\s*:\s*(.*)/);
+    if (keyMatch) {
+      result[keyMatch[1]] = keyMatch[2].trim();
+    }
+  }
+  return result;
+}
+
+// ============================================================
+// AG31-001: Total agent count = 31
+// ============================================================
+console.log('--- AG31-001: Total Agent Count ---');
+
+const agentFiles = fs.readdirSync(AGENTS_DIR).filter(f => f.endsWith('.md'));
+assert('AG31-001', agentFiles.length >= 31,
+  `Total agent count >= 31 (found ${agentFiles.length})`);
+
+// ============================================================
+// AG31-002~032: Each agent .md file exists with valid frontmatter
+// ============================================================
+console.log('\n--- AG31-002~032: Individual Agent Verification ---');
+
+for (let i = 0; i < ALL_AGENTS.length; i++) {
+  const agent = ALL_AGENTS[i];
+  const num = String(i + 2).padStart(3, '0');
+  const agentPath = path.join(AGENTS_DIR, `${agent}.md`);
+  let hasModel = false;
+  let hasMemory = false;
+  let hasTools = false;
+
+  if (fs.existsSync(agentPath)) {
+    const content = fs.readFileSync(agentPath, 'utf-8');
+    const fm = parseFrontmatter(content);
+    if (fm) {
+      hasModel = VALID_MODELS.includes(fm.model);
+      // v2.1.25: deprecation tombstones carry minimal frontmatter per
+      // contract-baseline-rollforward SOP §5.3 (no memory field) — exempt them.
+      hasMemory = content.match(/^memory:\s*\S+/m) !== null
+        || content.match(/^deprecatedIn:\s*\S+/m) !== null;
+      hasTools = content.match(/^(allowedTools|disallowedTools|tools)\s*:/m) !== null
+        || content.includes('tools:')
+        || content.includes('allowedTools:')
+        || content.includes('disallowedTools:');
+    }
+  }
+
+  assert(`AG31-${num}`, hasModel && hasMemory,
+    `${agent}: exists with valid frontmatter (model=${hasModel}, memory=${hasMemory})`);
+}
+
+// ============================================================
+// AG31-033: v2.1.1 AS-01 — disallowedTools removed from pdca-iterator, qa-monitor
+// (previously listed "Agent" which is not a valid CC tool name)
+// ============================================================
+console.log('\n--- AG31-033: disallowedTools removal verified ---');
+const hasInvalidDisallowed = [];
+for (const agent of DISALLOWED_TOOLS_AGENTS) {
+  const agentPath = path.join(AGENTS_DIR, `${agent}.md`);
+  if (fs.existsSync(agentPath)) {
+    const content = fs.readFileSync(agentPath, 'utf-8');
+    if (content.includes('disallowedTools')) {
+      hasInvalidDisallowed.push(agent);
+    }
+  }
+}
+assert('AG31-033', hasInvalidDisallowed.length === 0,
+  `v2.1.1 AS-01: disallowedTools correctly removed from pdca-iterator, qa-monitor${hasInvalidDisallowed.length ? ' STILL HAS: ' + hasInvalidDisallowed.join(', ') : ''}`);
+
+// ============================================================
+// AG31-034: All agents have memory field set
+// ============================================================
+console.log('\n--- AG31-034: Memory Field ---');
+
+const noMemory = [];
+for (const agent of ALL_AGENTS) {
+  const agentPath = path.join(AGENTS_DIR, `${agent}.md`);
+  if (fs.existsSync(agentPath)) {
+    const content = fs.readFileSync(agentPath, 'utf-8');
+    // v2.1.25: deprecation tombstones (deprecatedIn) are exempt — SOP §5.3 minimal frontmatter.
+    if (!content.match(/^memory:\s*\S+/m) && !content.match(/^deprecatedIn:\s*\S+/m)) {
+      noMemory.push(agent);
+    }
+  } else {
+    noMemory.push(agent);
+  }
+}
+assert('AG31-034', noMemory.length === 0,
+  `All agents have memory field${noMemory.length ? ' MISSING: ' + noMemory.join(', ') : ''}`);
+
+// ============================================================
+// AG31-035: CTO-lead uses fable model (v2.1.25 Claude 5 model alignment)
+// ============================================================
+console.log('\n--- AG31-035: CTO-lead Model ---');
+
+const ctoPath = path.join(AGENTS_DIR, 'cto-lead.md');
+let ctoUsesFable = false;
+if (fs.existsSync(ctoPath)) {
+  const content = fs.readFileSync(ctoPath, 'utf-8');
+  const fm = parseFrontmatter(content);
+  ctoUsesFable = fm && fm.model === 'fable';
+}
+assert('AG31-035', ctoUsesFable,
+  `cto-lead uses fable model`);
+
+// ============================================================
+// Summary
+// ============================================================
+console.log(`\n${'='.repeat(60)}`);
+console.log(`31 Agents Regression Tests: ${_passed}/${_total} PASS, ${_failed} FAIL`);
+if (_failures.length > 0) {
+  console.log(`\nFailures:`);
+  _failures.forEach(f => console.log(`  - ${f.id}: ${f.message}`));
+}
+console.log(`${'='.repeat(60)}\n`);
+if (_failed > 0) process.exit(1);

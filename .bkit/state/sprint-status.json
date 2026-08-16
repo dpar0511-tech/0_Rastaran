@@ -1,0 +1,33 @@
+{
+  "version": "1.1",
+  "entries": {
+    "self-dogfood-2.1.99-u1": {
+      "id": "self-dogfood-2.1.99-u1",
+      "name": "bkit self-dogfood v2.1.99-u1",
+      "phase": "prd",
+      "status": "active",
+      "trustLevelAtStart": "L4",
+      "createdAt": "2026-08-16T04:09:16.784Z",
+      "updatedAt": "2026-08-16T04:09:16.786Z"
+    },
+    "self-dogfood-2.1.99-u5": {
+      "id": "self-dogfood-2.1.99-u5",
+      "name": "bkit self-dogfood v2.1.99-u5",
+      "phase": "prd",
+      "status": "active",
+      "trustLevelAtStart": "L4",
+      "createdAt": "2026-08-16T04:09:17.585Z",
+      "updatedAt": "2026-08-16T04:09:17.588Z"
+    },
+    "self-dogfood-2.1.99-u6": {
+      "id": "self-dogfood-2.1.99-u6",
+      "name": "bkit self-dogfood v2.1.99-u6",
+      "phase": "prd",
+      "status": "active",
+      "trustLevelAtStart": "L4",
+      "createdAt": "2026-08-16T04:09:17.913Z",
+      "updatedAt": "2026-08-16T04:09:17.916Z"
+    }
+  },
+  "updatedAt": "2026-08-16T04:09:17.916Z"
+}

@@ -1,0 +1,16 @@
+{
+  "workflowId": "default",
+  "feature": "test-feature-wf019",
+  "currentStep": "idle",
+  "completedSteps": [],
+  "status": "running",
+  "startedAt": 1786853378838,
+  "lastUpdated": 1786853378838,
+  "context": {
+    "matchRate": 0,
+    "iterationCount": 0,
+    "maxIterations": 5,
+    "matchRateThreshold": 90,
+    "automationLevel": "semi-auto"
+  }
+}

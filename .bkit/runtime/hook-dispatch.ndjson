@@ -1,0 +1,13 @@
+{"event":"unknown","status":"threw","detail":"TypeError: Cannot read properties of undefined (reading 'test-feature')\n    at savePdcaTaskId (C:\\Users\\Igor\\Desktop\\Projekt\\0_Rastaran\\lib\\task\\tracker.js:38:23)\n    at Object.createPdcaTaskChain (C:\\Users\\Igor\\Desktop\\Projekt\\0_Rastaran\\lib\\task\\creator.js:149:5)\n    at Object.<anonymous> (C:\\User","at":"2026-08-16T04:09:28.611Z"}
+{"event":"PreToolUse","tool":"Write","source":null,"agent":null,"at":"2026-08-16T04:09:52.278Z"}
+{"event":"PreToolUse","tool":"Edit","source":null,"agent":null,"at":"2026-08-16T04:09:52.432Z"}
+{"event":"PreToolUse","tool":"Bash","source":null,"agent":null,"at":"2026-08-16T04:09:52.605Z"}
+{"event":"UserPromptSubmit","tool":null,"source":null,"agent":null,"at":"2026-08-16T04:09:52.765Z"}
+{"event":"UserPromptSubmit","tool":null,"source":null,"agent":null,"at":"2026-08-16T04:09:52.864Z"}
+{"event":"Stop","tool":null,"source":null,"agent":null,"at":"2026-08-16T04:09:52.963Z"}
+{"event":"StopFailure","tool":null,"source":null,"agent":null,"at":"2026-08-16T04:09:53.104Z"}
+{"event":"PostToolUse","tool":"Write","source":null,"agent":null,"at":"2026-08-16T04:09:53.213Z"}
+{"event":"PostToolUse","tool":"Bash","source":null,"agent":null,"at":"2026-08-16T04:09:53.450Z"}
+{"event":"Stop","tool":null,"source":null,"agent":null,"at":"2026-08-16T04:09:53.600Z"}
+{"event":"SessionStart","tool":null,"source":null,"agent":null,"at":"2026-08-16T04:09:53.726Z"}
+{"event":"PostToolUse","tool":"Skill","source":null,"agent":null,"at":"2026-08-16T04:09:54.778Z"}

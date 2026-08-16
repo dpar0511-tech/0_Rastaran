@@ -80,3 +80,27 @@ Rules:
 - If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
 - Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
 - After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+
+---
+
+## bkit — AI-Native Development OS & Auto-Suggestions
+
+This project is powered by **bkit** with 44 skills, 34 specialist agents, 11 Quality Gates, and 2 MCP servers.
+
+### Core Protocols:
+1. **PDCA Cycle for Features**: `pm → plan → design → do → check → act → qa → report → archive`
+   - Use `/pdca pm <feature>` to initiate comprehensive discovery and PRD.
+   - Use `/pdca design <feature>` to formulate architecture options (Minimal/Clean/Pragmatic).
+   - Use `/pdca check <feature>` to measure spec ↔ code `matchRate`.
+   - If `matchRate < 90%`, auto-trigger or propose `/pdca iterate <feature>` (max 5 cycles).
+2. **Sprint Orchestration for Releases**: `prd → plan → design → do → iterate → qa → report → archived`
+   - Use `/sprint master-plan <name> --features ...` for context-budgeted sprints (≤75k tokens each).
+   - Use `/sprint start <id>` to run sprints under Trust Level `/control level 0..4`.
+3. **11 Quality Gates**:
+   - M1: matchRate ≥ 90%, M2: codeQuality ≥ 80, M3: criticalIssues = 0, M5: testCoverage ≥ 70%, S1: dataFlowIntegrity ≥ 85%.
+
+### Auto-Suggestions & Next-Step Guidance:
+At the end of any response involving plan, feature, code modification, or testing:
+- Always provide an explicit **💡 Auto-Suggestion & Next Step** block recommending the next command (e.g. `👉 /pdca check <feature>`, `👉 /pdca iterate <feature>`, `👉 /pdca qa <feature>`, or `👉 /sprint start <sprint-id>`).
+- If drift or missing requirements are identified, suggest immediate self-repair.
+

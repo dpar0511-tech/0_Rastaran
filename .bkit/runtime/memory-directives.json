@@ -1,0 +1,24 @@
+{
+  "version": "2.1.14",
+  "count": 3,
+  "items": [
+    {
+      "pattern": "\"improve\" adjacent code, comments, or formatting",
+      "action": "deny",
+      "rule": "do-not",
+      "source": "CLAUDE.md"
+    },
+    {
+      "pattern": "refactor things that aren't broken",
+      "action": "deny",
+      "rule": "do-not",
+      "source": "CLAUDE.md"
+    },
+    {
+      "pattern": "remove pre-existing dead code unless asked",
+      "action": "deny",
+      "rule": "do-not",
+      "source": "CLAUDE.md"
+    }
+  ]
+}
